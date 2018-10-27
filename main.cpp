@@ -2,7 +2,7 @@
 #include <array>
 #include <SFML/Graphics.hpp>
 
-#include "Elements.h"
+#include "FigureView.h"
 
 using namespace std;
 
@@ -11,7 +11,7 @@ int main()
 {
 	cout << "Start MVI_tetris." << endl;
 
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(12*16, 24*16), "SFML works!");
 	sf::Color ClearColor(195, 195, 195);
 	
 	sf::Image im;
@@ -31,7 +31,7 @@ int main()
 
 
 	//Точки на фигуре задаются относительно центра поворота.
-	Figure MainFigure;
+	FigureView MainFigure(0,0,16);
 	MainFigure[0].set( 0, -1);
 	MainFigure[1].set(-1,  0);	//  #
 	MainFigure[2].set( 0,  0);  // ###
@@ -58,27 +58,28 @@ int main()
 			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  MainFigure.moveY(  30 * one_tic);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  MainFigure.moveX( -FigureSpeed * one_tic );
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) MainFigure.moveX(  FigureSpeed * one_tic );
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  
+			MainFigure.moveY(  30 * one_tic);
 
-		MainFigure.moveY( Graviti * one_tic );
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
+			MainFigure.moveX( -FigureSpeed * one_tic );
 
-
-		if (timer > delay) {
-
-			if (MainFigure.position().y > 10) MainFigure.moveY(-10);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+			MainFigure.moveX(  FigureSpeed * one_tic );
 
 
-			timer = 0;
-		}
 
+		MainFigure.moveY( Graviti * one_tic);
+		if (MainFigure.position().y > 24) MainFigure.moveY(-24);
+
+
+
+		if (timer > delay) timer = 0;
+		MainFigure.Update( delay - timer );
 
 		window.clear(ClearColor);
 		for (int n = 0; n < 4; n++) {
-			sf::Vector2f vec(MainFigure.g_point(n).x * 16, 
-			MainFigure.g_point(n).y * 16);
-			sp.setPosition(vec);
+			sp.setPosition( MainFigure.screenPos(n) );
 			window.draw(sp);
 		}
 		window.display();

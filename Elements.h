@@ -31,24 +31,24 @@ using Point_f = Point<float>;
 using Points4_t = std::array<Point_i, 4>;
 
 /*
-	Figure
+	BaseFigure
 	Базовая интерактивная фигура.
 	Содержит свои координаты на поле и массив точек.
 	Добавлены функции смещения и поворота. 
 	Поворот только на 90 градусов и только вокруг 0.0,
 	что сильно упростило формулу поворота.
 */
-class Figure
+class BaseFigure
 {
 public:
-	Figure() { _position.set(0, 0);  };
-	Figure(Point_f position) { setPosition(position); }
-	~Figure() {};
+	BaseFigure() { _position.set(0, 0);  };
+	BaseFigure(Point_f position) { setPosition(position); }
+	~BaseFigure() {};
 
 	const Point_f& position() { return _position; }
 	void  setPosition(Point_f newPosition ) { _position = newPosition; }
 
-	Points4_t points() { return _points;  }
+	const Points4_t &points() { return _points;  }
 	Point_i &operator[](int n) { return _points[n]; }
 	Point_i g_point(int n) {
 		return Point_i( (int)_position.x + _points[n].x,
