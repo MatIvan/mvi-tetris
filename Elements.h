@@ -55,6 +55,7 @@ public:
 						(int)_position.y + _points[n].y);
 	}
 
+	void move(float dX, float dY) { moveX(dX); moveY(dY); }
 	void moveX (float d) { _position.x += d; }
 	void moveY (float d) { _position.y += d; }
 

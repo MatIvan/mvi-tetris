@@ -24,8 +24,9 @@ int main()
 	sf::Sprite sp(tx);
 	sp.setPosition(10, 10);
 
-	float timer = 0;
-	float delay = 0.6;
+	float one_tic = 0;	//Время потраченное на одну обработку всего
+	float timer = 0;	//Время с момента последней обработки логики
+	float delay = 0.1;	//Через сколько миллисекунд обрабатыватьлогику
 	sf::Clock clock;
 
 
@@ -36,47 +37,40 @@ int main()
 	MainFigure[2].set( 0,  0);  // ###
 	MainFigure[3].set( 1,  0);
 
-
-	int needMoveX = 0, needMoveY = 0;
-	bool needTurn = false;
+	float FigureSpeed = 10.0;
+	float Graviti = 1;
 
 	while (window.isOpen())
 	{
-		float time = clock.getElapsedTime().asSeconds();
+		one_tic = clock.getElapsedTime().asSeconds();
 		clock.restart();
-		timer += time;
+		timer += one_tic;
 
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event:: Closed)
 				window.close();
+
+			if (event.type == sf::Event::KeyReleased) {
+				if (event.key.code == sf::Keyboard::Space)
+					MainFigure.turn();
+			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  needMoveY = 1;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  needMoveX =-1;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) needMoveX = 1;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) needTurn = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  MainFigure.moveY(  30 * one_tic);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  MainFigure.moveX( -FigureSpeed * one_tic );
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) MainFigure.moveX(  FigureSpeed * one_tic );
+
+		MainFigure.moveY( Graviti * one_tic );
 
 
 		if (timer > delay) {
-			//logik
-			timer = 0;
 
-			//Управление
-			MainFigure.moveX(needMoveX);
-			MainFigure.moveY(needMoveY);
-			needMoveX = 0;
-			needMoveY = 0;
-			if (needTurn) {
-				MainFigure.turn();
-				needTurn = false;
-			}
-
-
-			//Гравитация
-			MainFigure.moveY(1);
 			if (MainFigure.position().y > 10) MainFigure.moveY(-10);
+
+
+			timer = 0;
 		}
 
 
