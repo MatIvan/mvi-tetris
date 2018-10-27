@@ -1,34 +1,15 @@
 #include <array>
+#include <SFML/System.hpp>
 
 /*
 	Базовые структуры и классы для тетриса
 */
 
-
-/*
-	Point
-	Шаблон класса Точка с координатами x,y
-*/
-template <typename T>
-struct Point
-{
-	Point() { x = 0, y = 0; }
-	Point(T X, T Y) { set(X, Y); }
-
-	void set(T X, T Y) { x = X, y = Y; }
-	void set( Point newPoint) { set( newPoint.x, newPoint.y); }
-
-	T x, y;
-};
-
-using Point_i = Point<int>;
-using Point_f = Point<float>;
-
 /*
 	Points4_t
 	Массив из 4-х точек
 */
-using Points4_t = std::array<Point_i, 4>;
+using Points4_t = std::array< sf::Vector2f, 4>;
 
 /*
 	BaseFigure
@@ -41,18 +22,24 @@ using Points4_t = std::array<Point_i, 4>;
 class BaseFigure
 {
 public:
-	BaseFigure() { _position.set(0, 0);  };
-	BaseFigure(Point_f position) { setPosition(position); }
+	BaseFigure() { _position = sf::Vector2f(0, 0);  };
+	BaseFigure(sf::Vector2f position) { setPosition(position); }
 	~BaseFigure() {};
 
-	const Point_f& position() { return _position; }
-	void  setPosition(Point_f newPosition ) { _position = newPosition; }
+	sf::Vector2f position() { 
+		sf::Vector2f res;
+		res.x = (int)_position.x;
+		res.y = (int)_position.y;
+		return res; 
+	}
+
+	void  setPosition(sf::Vector2f newPosition ) { _position = newPosition; }
 
 	const Points4_t &points() { return _points;  }
-	Point_i &operator[](int n) { return _points[n]; }
-	Point_i g_point(int n) {
-		return Point_i( (int)_position.x + _points[n].x,
-						(int)_position.y + _points[n].y);
+	sf::Vector2f &operator[](int n) { return _points[n]; }
+	sf::Vector2f g_point(int n) {
+		return sf::Vector2f( (int)_position.x + _points[n].x,
+						     (int)_position.y + _points[n].y);
 	}
 
 	void move(float dX, float dY) { moveX(dX); moveY(dY); }
@@ -65,17 +52,17 @@ public:
 	}
 
 private:
-	Point_f		_position;
-	Points4_t	_points;
+	sf::Vector2f	_position;
+	Points4_t		_points;
 
 	void turn90( int n ) {
 		//X = x1 + (x2 - x1)*cos(A) - (y2 - y1)*sin(A)
 		//Y = y1 + (x2 - x1)*sin(A) + (y2 - y1)*cos(A)
 		//Поворот только на 90 градусов и только вокруг 0
-		Point_i R;
+		sf::Vector2f R;
 		R.x = -_points[n].y;
 		R.y =  _points[n].x;
-		_points[n].set(R);
+		_points[n] = R;
 	}
 };
 

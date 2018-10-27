@@ -2,6 +2,7 @@
 #include <array>
 #include <SFML/Graphics.hpp>
 
+
 #include "FigureView.h"
 
 using namespace std;
@@ -31,14 +32,14 @@ int main()
 
 
 	//Точки на фигуре задаются относительно центра поворота.
-	FigureView MainFigure(0,0,16);
-	MainFigure[0].set( 0, -1);
-	MainFigure[1].set(-1,  0);	//  #
-	MainFigure[2].set( 0,  0);  // ###
-	MainFigure[3].set( 1,  0);
+	FigureView MainFigure( sf::Vector2f(0,0), 16);
+	MainFigure[0] = sf::Vector2f( 0, -1);
+	MainFigure[1] = sf::Vector2f(-1,  0);	//  #
+	MainFigure[2] = sf::Vector2f( 0,  0);   // ###
+	MainFigure[3] = sf::Vector2f( 1,  0);
 
-	float FigureSpeed = 10.0;
-	float Graviti = 1;
+	float FigureSpeed = 30;
+	float Graviti = 5;
 
 	while (window.isOpen())
 	{

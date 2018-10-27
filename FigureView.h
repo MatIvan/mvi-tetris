@@ -12,15 +12,20 @@ class FigureView : public BaseFigure
 {
 public:
 	FigureView();
-	FigureView( float X, float Y, float Scale );
+	FigureView( sf::Vector2f newPosition, float Scale );
 	~FigureView();
 
 	void Update(float tic);
 	sf::Vector2f screenPos( int n );
+	
+	void setScale(float newScale);
 
 private:
 	float _scale;
-	Point_f _ScreenPosition;
+	sf::Vector2f _ScreenPosition;
+	Points4_t	 _ScreenPoints;
 
+	void setScreenPos(sf::Vector2f newPosition);
+	void setScreenPoints();
 };
 

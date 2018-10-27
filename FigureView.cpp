@@ -3,13 +3,16 @@
 
 FigureView::FigureView() : BaseFigure()
 {
-
+	setPosition(sf::Vector2f(0,0));
+	setScreenPos ( this->position() * _scale );
+	setScale(1);
 }
 
-FigureView::FigureView(float X, float Y, float Scale)
+FigureView::FigureView( sf::Vector2f newPosition, float Scale)
 {
-	_ScreenPosition.set(X, Y);
-	_scale = Scale;
+	setPosition( newPosition );
+	setScreenPos(this->position() * _scale);
+	setScale( Scale );
 }
 
 
@@ -19,16 +22,36 @@ FigureView::~FigureView()
 
 void FigureView::Update(float tic)
 {
-	float targetX, targetY;
-	targetX = (int)position().x * _scale;
-	targetY = (int)position().y * _scale;
-	_ScreenPosition.x += ((targetX - _ScreenPosition.x) * tic ) / _scale;
-	_ScreenPosition.y += ((targetY - _ScreenPosition.y) * tic ) / _scale;
+	sf::Vector2f target;
+
+	//Плавное перемещение центра фигуры
+	target = this->position() * _scale;
+	_ScreenPosition += ( target - _ScreenPosition ) * tic / (float)9;
+
+	//Плавное перемещение точек фигуры
+	for (int n = 0; n < 4; n++) {
+		target = points()[n] * _scale;
+		_ScreenPoints[n] += (target - _ScreenPoints[n]) * tic / (float)4;
+	}
 }
 
 sf::Vector2f FigureView::screenPos(int n)
 {
-	return sf::Vector2f(
-		_ScreenPosition.x + points()[n].x * _scale,
-		_ScreenPosition.y + points()[n].y * _scale);
+	return _ScreenPosition + _ScreenPoints[n];
+}
+
+void FigureView::setScreenPos(sf::Vector2f newPosition)
+{
+	_ScreenPosition = newPosition;
+}
+
+void FigureView::setScreenPoints()
+{
+	for (int n = 0; n < 4; n++)
+		_ScreenPoints[n] = (points()[n] * _scale);
+}
+
+void FigureView::setScale(float newScale)
+{
+	_scale = newScale;
 }
