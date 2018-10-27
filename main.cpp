@@ -30,7 +30,7 @@ int main()
 
 
 	//Точки на фигуре задаются относительно центра поворота.
-	Figure MainFigure(Point(0, 0));
+	Figure MainFigure;
 	MainFigure[0].set( 0, -1);
 	MainFigure[1].set(-1,  0);	//  #
 	MainFigure[2].set( 0,  0);  // ###

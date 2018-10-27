@@ -2,34 +2,33 @@
 
 /*
 	Базовые структуры и классы для тетриса
-	Все координаты целыми - логика квадратиков.
 */
 
 
 /*
 	Point
-	Точка с координатами x,y
+	Шаблон класса Точка с координатами x,y
 */
+template <typename T>
 struct Point
 {
 	Point() { x = 0, y = 0; }
-	Point(int X, int Y) { set(X, Y); }
+	Point(T X, T Y) { set(X, Y); }
 
-	void set(int X, int Y) { x = X, y = Y; }
+	void set(T X, T Y) { x = X, y = Y; }
 	void set( Point newPoint) { set( newPoint.x, newPoint.y); }
 
-	Point operator+ (const Point &point) {
-		return Point(x + point.x, y + point.y);
-	}
-
-	int x, y;
+	T x, y;
 };
+
+using Point_i = Point<int>;
+using Point_f = Point<float>;
 
 /*
 	Points4_t
 	Массив из 4-х точек
 */
-using Points4_t = std::array<Point, 4>;
+using Points4_t = std::array<Point_i, 4>;
 
 /*
 	Figure
@@ -42,21 +41,22 @@ using Points4_t = std::array<Point, 4>;
 class Figure
 {
 public:
-	Figure() {};
-	Figure(Point position) { setPosition(position); }
+	Figure() { _position.set(0, 0);  };
+	Figure(Point_f position) { setPosition(position); }
 	~Figure() {};
 
-	const Point& position() { return _position; }
-	void  setPosition(Point newPosition ) { _position = newPosition; }
+	const Point_f& position() { return _position; }
+	void  setPosition(Point_f newPosition ) { _position = newPosition; }
 
 	Points4_t points() { return _points;  }
-	Point &operator[](int n) { return _points[n]; }
-	Point g_point(int n) {
-		return Point(_position + _points[n]);
+	Point_i &operator[](int n) { return _points[n]; }
+	Point_i g_point(int n) {
+		return Point_i( (int)_position.x + _points[n].x,
+						(int)_position.y + _points[n].y);
 	}
 
-	void moveX (int d) { _position.x += d; }
-	void moveY (int d) { _position.y += d; }
+	void moveX (float d) { _position.x += d; }
+	void moveY (float d) { _position.y += d; }
 
 	void turn()	{
 		for (int n = 0; n < 4; n++) 
@@ -64,14 +64,14 @@ public:
 	}
 
 private:
-	Point		_position;
+	Point_f		_position;
 	Points4_t	_points;
 
 	void turn90( int n ) {
 		//X = x1 + (x2 - x1)*cos(A) - (y2 - y1)*sin(A)
 		//Y = y1 + (x2 - x1)*sin(A) + (y2 - y1)*cos(A)
 		//Поворот только на 90 градусов и только вокруг 0
-		Point R;
+		Point_i R;
 		R.x = -_points[n].y;
 		R.y =  _points[n].x;
 		_points[n].set(R);
