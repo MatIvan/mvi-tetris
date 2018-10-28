@@ -1,3 +1,6 @@
+#ifndef ELEMENTS_H
+#define ELEMENTS_H
+
 #include <array>
 #include <SFML/System.hpp>
 
@@ -62,3 +65,4 @@ private:
 	}
 };
 
+#endif ELEMENTS_H

@@ -4,6 +4,7 @@
 
 
 #include "FigureView.h"
+#include "BaseField.h"
 
 using namespace std;
 
@@ -31,9 +32,12 @@ int main()
 	sf::Clock clock;
 
 
-	//Точки на фигуре задаются относительно центра поворота.
+	//Фигура, которой управляет игрок
 	FigureView MainFigure( sf::Vector2f(0,0), 16);
-	MainFigure.setFigure(6);
+	MainFigure.setFigure( rand() % 7 );
+
+	//Игровое поле
+	BaseField Field;
 
 	float FigureSpeed = 10;
 	float Graviti = 1;
@@ -74,11 +78,13 @@ int main()
 
 
 		//Ограничения на перемещения
-		if (MainFigure.position().x < 0)  MainFigure.setPositionX( (float)0  );
-		if (MainFigure.position().x > 12) MainFigure.setPositionX( (float)12 );
-		if (MainFigure.position().y > 24) MainFigure.moveY(-24);
-
-
+		//if (MainFigure.position().x < 0)  MainFigure.setPositionX( (float)0  );
+		//if (MainFigure.position().x > 12) MainFigure.setPositionX( (float)12 );
+		//if (MainFigure.position().y > 24) { MainFigure.moveY(-24); MainFigure.setFigure(rand() % 7); }
+		if (Field.Check(MainFigure) >= 0) {
+			MainFigure.setPosition(sf::Vector2f(5, 0));
+			MainFigure.setFigure(rand() % 7);
+		}
 
 		//Обновление мира
 		if (timer > delay) timer = 0;
@@ -92,6 +98,17 @@ int main()
 			sp.setPosition( MainFigure.screenPos(n) );
 			window.draw(sp);
 		}
+
+		for (int i = 0; i < Field.Hight(); i++) {
+			for (int j = 0; j < Field.Width(); j++) {
+				if (Field.isFilled(j, i)) {
+					sp.setPosition( j*16, i*16 );
+					window.draw(sp);
+				}
+			}
+		}
+
+
 		window.display();
 
 

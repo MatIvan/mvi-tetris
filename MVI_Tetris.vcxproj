@@ -131,11 +131,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseField.cpp" />
     <ClCompile Include="Elements.cpp" />
     <ClCompile Include="FigureView.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseField.h" />
     <ClInclude Include="Elements.h" />
     <ClInclude Include="FigureView.h" />
   </ItemGroup>

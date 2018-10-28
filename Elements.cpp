@@ -26,6 +26,7 @@ sf::Vector2f BaseFigure::g_point(int n)
 
 void BaseFigure::setFigure(int id)
 {
+	//Точки на фигуре задаются относительно центра поворота.
 	switch (id)
 	{
 	case 0: //Палочка

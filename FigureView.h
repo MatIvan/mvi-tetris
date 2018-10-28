@@ -1,3 +1,6 @@
+#ifndef FIGUREVIEW_H
+#define FIGUREVIEW_H
+
 #pragma once
 #include "Elements.h"
 #include <SFML/System.hpp>
@@ -29,3 +32,5 @@ private:
 	void setScreenPoints();
 };
 
+
+#endif //FIGUREVIEW_H
