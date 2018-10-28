@@ -31,7 +31,7 @@ void FigureView::Update(float tic)
 	//Плавное перемещение точек фигуры
 	for (int n = 0; n < 4; n++) {
 		target = points()[n] * _scale;
-		_ScreenPoints[n] += (target - _ScreenPoints[n]) * tic / (float)4;
+		_ScreenPoints[n] += (target - _ScreenPoints[n]) * tic / (float)4.5;
 	}
 }
 

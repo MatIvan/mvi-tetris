@@ -22,25 +22,19 @@ using Points4_t = std::array< sf::Vector2f, 4>;
 class BaseFigure
 {
 public:
-	BaseFigure() { _position = sf::Vector2f(0, 0);  };
-	BaseFigure(sf::Vector2f position) { setPosition(position); }
+	BaseFigure();
+	BaseFigure(sf::Vector2f position);
 	~BaseFigure() {};
 
-	sf::Vector2f position() { 
-		sf::Vector2f res;
-		res.x = (int)_position.x;
-		res.y = (int)_position.y;
-		return res; 
-	}
+	sf::Vector2f position();
 
-	void  setPosition(sf::Vector2f newPosition ) { _position = newPosition; }
+	void setPositionX( float X ) { _position.x = X; }
+	void setPositionY( float Y ) { _position.y = Y; }
+	void setPosition(sf::Vector2f newPosition ) { _position = newPosition; }
 
 	const Points4_t &points() { return _points;  }
-	sf::Vector2f &operator[](int n) { return _points[n]; }
-	sf::Vector2f g_point(int n) {
-		return sf::Vector2f( (int)_position.x + _points[n].x,
-						     (int)_position.y + _points[n].y);
-	}
+	const sf::Vector2f &operator[](int n) { return _points[n]; }
+	sf::Vector2f g_point(int n);
 
 	void move(float dX, float dY) { moveX(dX); moveY(dY); }
 	void moveX (float d) { _position.x += d; }
@@ -50,6 +44,8 @@ public:
 		for (int n = 0; n < 4; n++) 
 			turn90(n);
 	}
+
+	void setFigure(int id);
 
 private:
 	sf::Vector2f	_position;

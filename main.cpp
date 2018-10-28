@@ -27,19 +27,16 @@ int main()
 
 	float one_tic = 0;	//Время потраченное на одну обработку всего
 	float timer = 0;	//Время с момента последней обработки логики
-	float delay = 0.1;	//Через сколько миллисекунд обрабатыватьлогику
+	float delay = (float)0.1;	//Через сколько миллисекунд обрабатыватьлогику
 	sf::Clock clock;
 
 
 	//Точки на фигуре задаются относительно центра поворота.
 	FigureView MainFigure( sf::Vector2f(0,0), 16);
-	MainFigure[0] = sf::Vector2f( 0, -1);
-	MainFigure[1] = sf::Vector2f(-1,  0);	//  #
-	MainFigure[2] = sf::Vector2f( 0,  0);   // ###
-	MainFigure[3] = sf::Vector2f( 1,  0);
+	MainFigure.setFigure(6);
 
-	float FigureSpeed = 30;
-	float Graviti = 5;
+	float FigureSpeed = 10;
+	float Graviti = 1;
 
 	while (window.isOpen())
 	{
@@ -53,12 +50,14 @@ int main()
 			if (event.type == sf::Event:: Closed)
 				window.close();
 
+			//Повернуть фигуру можно только отпустив пробел и снова нажав.
 			if (event.type == sf::Event::KeyReleased) {
 				if (event.key.code == sf::Keyboard::Space)
 					MainFigure.turn();
 			}
 		}
 
+		//Управление
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  
 			MainFigure.moveY(  30 * one_tic);
 
@@ -70,15 +69,25 @@ int main()
 
 
 
+		//Гравитация
 		MainFigure.moveY( Graviti * one_tic);
+
+
+		//Ограничения на перемещения
+		if (MainFigure.position().x < 0)  MainFigure.setPositionX( (float)0  );
+		if (MainFigure.position().x > 12) MainFigure.setPositionX( (float)12 );
 		if (MainFigure.position().y > 24) MainFigure.moveY(-24);
 
 
 
+		//Обновление мира
 		if (timer > delay) timer = 0;
 		MainFigure.Update( delay - timer );
 
+
+
 		window.clear(ClearColor);
+		//Рисуем спрайты фигуры
 		for (int n = 0; n < 4; n++) {
 			sp.setPosition( MainFigure.screenPos(n) );
 			window.draw(sp);
