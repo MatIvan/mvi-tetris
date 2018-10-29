@@ -41,6 +41,8 @@ int main()
 
 	float FigureSpeed = 10;
 	float Graviti = 1;
+	int score = 0;
+	int count_line = 0;
 
 	while (window.isOpen())
 	{
@@ -81,9 +83,12 @@ int main()
 		//if (MainFigure.position().x < 0)  MainFigure.setPositionX( (float)0  );
 		//if (MainFigure.position().x > 12) MainFigure.setPositionX( (float)12 );
 		//if (MainFigure.position().y > 24) { MainFigure.moveY(-24); MainFigure.setFigure(rand() % 7); }
-		if (Field.Check(MainFigure) >= 0) {
+		count_line = Field.Check(MainFigure);
+		if (count_line >= 0) {
 			MainFigure.setPosition(sf::Vector2f(5, 0));
 			MainFigure.setFigure(rand() % 7);
+			score += count_line;
+			std::cout << score << std::endl;
 		}
 
 		//Обновление мира
