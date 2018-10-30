@@ -8,7 +8,6 @@
 
 using namespace std;
 
-
 int main()
 {
 	cout << "Start MVI_tetris." << endl;
@@ -26,76 +25,78 @@ int main()
 	sf::Sprite sp(tx);
 	sp.setPosition(10, 10);
 
-	float one_tic = 0;	//Время потраченное на одну обработку всего
-	float timer = 0;	//Время с момента последней обработки логики
-	float delay = (float)0.1;	//Через сколько миллисекунд обрабатыватьлогику
+
+	//Таймеры
 	sf::Clock clock;
+	float one_tic = 0;	//Время потраченное на одну обработку одного цикла
 
 
 	//Фигура, которой управляет игрок
 	FigureView MainFigure( sf::Vector2f(0,0), 16);
 	MainFigure.setFigure( rand() % 7 );
+	float SpeedDown = 1;
+	float SpeedX    = 0;
+	sf::Vector2f controlMove(0,0);
+
 
 	//Игровое поле
 	BaseField Field;
 
-	float FigureSpeed = 10;
-	float Graviti = 1;
+
 	int score = 0;
 	int count_line = 0;
+	
 
 	while (window.isOpen())
 	{
 		one_tic = clock.getElapsedTime().asSeconds();
 		clock.restart();
-		timer += one_tic;
 
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event:: Closed)
 				window.close();
-
-			//Повернуть фигуру можно только отпустив пробел и снова нажав.
 			if (event.type == sf::Event::KeyReleased) {
-				if (event.key.code == sf::Keyboard::Space)
+				if (event.key.code == sf::Keyboard::Down) {
+					SpeedDown = 1;
+				}
+				if (event.key.code == sf::Keyboard::Left) {
+					SpeedX = 0;
+				}
+				if (event.key.code == sf::Keyboard::Right) {
+					SpeedX = 0;
+				}
+				if (event.key.code == sf::Keyboard::Space) {
 					MainFigure.turn();
+				}
 			}
 		}
 
 		//Управление
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  
-			MainFigure.moveY(  30 * one_tic);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  SpeedX = -15;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) SpeedX = 15;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  SpeedDown += 170 * one_tic;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
-			MainFigure.moveX( -FigureSpeed * one_tic );
+		MainFigure.move( one_tic * SpeedX , one_tic * SpeedDown );
+		
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
-			MainFigure.moveX(  FigureSpeed * one_tic );
-
-
-
-		//Гравитация
-		MainFigure.moveY( Graviti * one_tic);
-
-
-		//Ограничения на перемещения
-		//if (MainFigure.position().x < 0)  MainFigure.setPositionX( (float)0  );
-		//if (MainFigure.position().x > 12) MainFigure.setPositionX( (float)12 );
-		//if (MainFigure.position().y > 24) { MainFigure.moveY(-24); MainFigure.setFigure(rand() % 7); }
+		//Ограничения на перемещения + Проверка на столкновения
 		count_line = Field.Check(MainFigure);
 		if (count_line >= 0) {
-			MainFigure.setPosition(sf::Vector2f(5, 0));
 			MainFigure.setFigure(rand() % 7);
+			MainFigure.setPosition(sf::Vector2f(5, 0));
+			SpeedDown = 1;
+
 			score += count_line;
 			std::cout << score << std::endl;
 		}
 
-		//Обновление мира
-		if (timer > delay) timer = 0;
-		MainFigure.Update( delay - timer );
 
 
+		//Анимации
+		MainFigure.Update( one_tic );
+		
 
 		window.clear(ClearColor);
 		//Рисуем спрайты фигуры
@@ -104,6 +105,7 @@ int main()
 			window.draw(sp);
 		}
 
+		//Рисуем поле
 		for (int i = 0; i < Field.Hight(); i++) {
 			for (int j = 0; j < Field.Width(); j++) {
 				if (Field.isFilled(j, i)) {

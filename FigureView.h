@@ -28,6 +28,9 @@ private:
 	sf::Vector2f _ScreenPosition;
 	Points4_t	 _ScreenPoints;
 
+	float AnimSpeed_figure = 30;
+	float AnimSpeed_points = 30;
+
 	void setScreenPos(sf::Vector2f newPosition);
 	void setScreenPoints();
 };
