@@ -21,21 +21,27 @@
     <ClCompile Include="FigureView.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Elements.cpp">
+    <ClCompile Include="BaseField.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="BaseField.cpp">
+    <ClCompile Include="BaseFigure.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="TetrisController.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Elements.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="FigureView.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="BaseField.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseFigure.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="TetrisController.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

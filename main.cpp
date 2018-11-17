@@ -2,9 +2,7 @@
 #include <array>
 #include <SFML/Graphics.hpp>
 
-
-#include "FigureView.h"
-#include "BaseField.h"
+#include "TetrisController.h"
 
 using namespace std;
 
@@ -25,23 +23,13 @@ int main()
 	sf::Sprite sp(tx);
 	sp.setPosition(10, 10);
 
-
 	//Таймеры
 	sf::Clock clock;
 	float one_tic = 0;	//Время потраченное на одну обработку одного цикла
 
-
-	//Фигура, которой управляет игрок
-	FigureView MainFigure( sf::Vector2f(0,0), 16);
-	MainFigure.setFigure( rand() % 7 );
-	float SpeedDown = 1;
-	float SpeedX    = 0;
-	sf::Vector2f controlMove(0,0);
-
-
-	//Игровое поле
-	BaseField Field;
-
+	//Управляемая фигура и поле
+	TetrisController tc;
+	tc.setFigureType( rand() % 7 );
 
 	int score = 0;
 	int count_line = 0;
@@ -55,38 +43,27 @@ int main()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event:: Closed)
+			switch (event.type) {
+			case sf::Event::Closed:
 				window.close();
-			if (event.type == sf::Event::KeyReleased) {
-				if (event.key.code == sf::Keyboard::Down) {
-					SpeedDown = 1;
-				}
-				if (event.key.code == sf::Keyboard::Left) {
-					SpeedX = 0;
-				}
-				if (event.key.code == sf::Keyboard::Right) {
-					SpeedX = 0;
-				}
-				if (event.key.code == sf::Keyboard::Space) {
-					MainFigure.turn();
-				}
+				break;
+			case sf::Event::KeyReleased:
+				tc.KeyReleased(event.key.code);
+				break;
+			default: break;
 			}
 		}
 
 		//Управление
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  SpeedX = -15;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) SpeedX = 15;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  SpeedDown += 170 * one_tic;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  tc.KeyPressed(sf::Keyboard::Left);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) tc.KeyPressed(sf::Keyboard::Right);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  tc.KeyPressed(sf::Keyboard::Down);
 
-		MainFigure.move( one_tic * SpeedX , one_tic * SpeedDown );
-		
 
-		//Ограничения на перемещения + Проверка на столкновения
-		count_line = Field.Check(MainFigure);
+		count_line = tc.Update(one_tic);
 		if (count_line >= 0) {
-			MainFigure.setFigure(rand() % 7);
-			MainFigure.setPosition(sf::Vector2f(5, 0));
-			SpeedDown = 1;
+			tc.setFigureType(rand() % 7);
+			tc.setPosition( 5, 0 );
 
 			score += count_line;
 			std::cout << score << std::endl;
@@ -95,8 +72,8 @@ int main()
 
 
 		//Анимации
-		MainFigure.Update( one_tic );
-		
+		MainFigure.UpdateAnimation( one_tic );
+
 
 		window.clear(ClearColor);
 		//Рисуем спрайты фигуры

@@ -6,36 +6,15 @@ BaseField::BaseField()
 {
 }
 
-
 BaseField::~BaseField()
 {
 }
 
-int BaseField::Check(BaseFigure & figure)
+void BaseField::push( BaseFigure *figure )
 {
 	for (int n = 0; n < 4; n++) {
-		sf::Vector2f p = figure.g_point(n);
-
-		//Выход за границы поля
-		if (p.x < 0)    { figure.moveX(-p.x); p = figure.g_point(n); }
-		if (p.x >_w-1)  { figure.moveX( _w-1 - p.x ); p = figure.g_point(n); }
-		if (p.y > _h-1) { figure.moveY( _h-1 - p.y ); p = figure.g_point(n); }
-
-		//Остановить фигуру или нет
-		if (_field[(int)p.x][(int)p.y + 1] || p.y == _h-1) {
-			push(figure);
-			return checkLines(); 
-		}
-
-	}
-	return -1; //Фигура в полете
-}
-
-void BaseField::push( BaseFigure & figure)
-{
-	for (int n = 0; n < 4; n++) {
-		sf::Vector2f p = figure.g_point(n);
-		_field[(int)p.x][(int)p.y] = true;
+		sf::Vector2i p = figure->g_points(n);
+		_field[p.x][p.y] = true;
 	}
 }
 

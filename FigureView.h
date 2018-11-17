@@ -2,23 +2,25 @@
 #define FIGUREVIEW_H
 
 #pragma once
-#include "Elements.h"
+#include "BaseFigure.h"
 #include <SFML/System.hpp>
 
 /*
 	FigureView
-	Класс фигуры длявычисления координат на экране
+	Класс фигуры для вычисления координат на экране
 	Реализация математики анимаций
 */
+
+using Points4f_t = std::array< sf::Vector2f, 4>;
 
 class FigureView : public BaseFigure
 {
 public:
 	FigureView();
-	FigureView( sf::Vector2f newPosition, float Scale );
+	FigureView(int X, int Y, float Scale );
 	~FigureView();
 
-	void Update(float tic);
+	void UpdateAnimation(float tic);
 	sf::Vector2f screenPos( int n );
 	
 	void setScale(float newScale);
@@ -26,12 +28,12 @@ public:
 private:
 	float _scale;
 	sf::Vector2f _ScreenPosition;
-	Points4_t	 _ScreenPoints;
+	Points4f_t	 _ScreenPoints;
 
 	float AnimSpeed_figure = 30;
 	float AnimSpeed_points = 30;
 
-	void setScreenPos(sf::Vector2f newPosition);
+	void setScreenPos( float X, float Y);
 	void setScreenPoints();
 };
 
