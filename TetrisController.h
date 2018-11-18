@@ -11,7 +11,7 @@
 class TetrisController
 {
 public:
-	TetrisController( );
+	TetrisController();
 	~TetrisController() {}
 
 	void setFigureType(int type);
@@ -19,6 +19,11 @@ public:
 	void setPosition( float X, float Y );
 	void setPositionX(float X);
 	void setPositionY(float Y);
+
+	void setSpeeds(float newSpeedDown, float newSpeedX);
+
+	BaseFigure *getBaseFigure() { return &figure; }
+	BaseField  *getBaseField() { return &field; }
 
 	// Вернет:
 	//			-1 фигура в полете
@@ -32,8 +37,10 @@ public:
 private:
 	sf::Vector2f f_position;
 
-	BaseFigure *figure;
-	BaseField  *field;
+	BaseFigure figure;
+	BaseField  field;
+
+	
 
 	float SpeedDown;
 	float SpeedX;

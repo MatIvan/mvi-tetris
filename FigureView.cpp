@@ -1,36 +1,39 @@
 #include "FigureView.h"
 
 
-FigureView::FigureView() : BaseFigure()
+FigureView::FigureView()
 {
-	setPosition( 0,0 );
-	setScreenPos ( this->position().x * _scale, this->position().y * _scale);
-	setScale(1);
 }
-
-FigureView::FigureView(int X, int Y, float Scale)
-{
-	setPosition( X,Y );
-	setScreenPos( this->position().x * _scale, this->position().y * _scale );
-	setScale( Scale );
-}
-
 
 FigureView::~FigureView()
 {
 }
 
+void FigureView::setAnimSpeeds(float newAnimSpeed_figure, float newAnimSpeed_points)
+{
+	AnimSpeed_figure = newAnimSpeed_figure;
+	AnimSpeed_points = newAnimSpeed_points;
+}
+
+void FigureView::setFigure(BaseFigure * fig)
+{
+	figure = fig;
+}
+
 void FigureView::UpdateAnimation(float tic)
 {
 	sf::Vector2f target;
+	sf::Vector2i pos;
 
 	//Плавное перемещение центра фигуры
-	target = sf::Vector2f( this->position().x * _scale, this->position().y * _scale);
+	pos = figure->position();
+	target = sf::Vector2f( pos.x * _scale, pos.y * _scale);
 	_ScreenPosition += (target - _ScreenPosition) * AnimSpeed_figure * tic;
 
 	//Плавное перемещение точек фигуры
 	for (int n = 0; n < 4; n++) {
-		target = sf::Vector2f( points(n).x * _scale, points(n).y * _scale);
+		pos = figure->points(n);
+		target = sf::Vector2f( pos.x * _scale, pos.y * _scale);
 		_ScreenPoints[n] += (target - _ScreenPoints[n]) * AnimSpeed_points * tic;
 	}
 }
@@ -44,13 +47,16 @@ void FigureView::setScreenPos(float X, float Y)
 {
 	_ScreenPosition.x = X;
 	_ScreenPosition.y = Y;
+	setScreenPoints();
 }
 
 void FigureView::setScreenPoints()
 {
+	sf::Vector2i pos;
 	for (int n = 0; n < 4; n++) {
-		_ScreenPoints[n].x = (points(n).x * _scale);
-		_ScreenPoints[n].y = (points(n).y * _scale);
+		pos = figure->points(n);
+		_ScreenPoints[n].x = (pos.x * _scale);
+		_ScreenPoints[n].y = (pos.y * _scale);
 	}
 }
 

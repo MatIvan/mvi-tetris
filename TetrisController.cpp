@@ -4,8 +4,6 @@
 
 TetrisController::TetrisController( )
 {
-	figure = new BaseFigure();
-	field  = new BaseField();
 	SpeedDown = 1;
 	SpeedX = 0;
 }
@@ -19,13 +17,20 @@ void TetrisController::setPosition(float X, float Y)
 void TetrisController::setPositionX(float X)
 {
 	f_position.x = X;
-	figure->setPositionX( (int)X );
+	figure.setPositionX( (int)X );
 }
 
 void TetrisController::setPositionY(float Y)
 {
 	f_position.y = Y;
-	figure->setPositionY( (int)Y );
+	figure.setPositionY( (int)Y );
+}
+
+void TetrisController::setSpeeds(float newSpeedDown, float newSpeedX)
+{
+	SpeedDown = newSpeedDown;
+	SpeedX = newSpeedX;
+
 }
 
 
@@ -42,7 +47,7 @@ void TetrisController::moveY(float d)
 
 void TetrisController::setFigureType(int type)
 {
-	figure->setFigureType(type);
+	figure.setFigureType(type);
 }
 
 void TetrisController::KeyReleased(sf::Keyboard::Key key)
@@ -56,7 +61,7 @@ void TetrisController::KeyReleased(sf::Keyboard::Key key)
 		SpeedX = 0;
 		break;
 	case sf::Keyboard::Space:
-		figure->turn();
+		figure.turn();
 		break;
 	default: break;
 	}
@@ -84,25 +89,25 @@ int TetrisController::Update(float tic)
 	move(tic * SpeedX, tic * SpeedDown);
 
 	sf::Vector2i np(
-		figure->positionX() + getDelta(f_position.x, figure->positionX),
-		figure->positionY() + getDelta(f_position.y, figure->positionY)
+		figure.positionX() + getDelta(f_position.x, figure.positionX()),
+		figure.positionY() + getDelta(f_position.y, figure.positionY())
 	);
 
 	if (checkPoints(np)) {
 		// двигать можно
-		figure->setPosition(np);
+		figure.setPosition(np);
 	} else {
 		// двигать нельзя
 		SpeedDown = 1;
 		SpeedX = 0;
-		setPosition(figure->positionX(), figure->positionY());
+		setPosition(figure.positionX(), figure.positionY());
 	}
 
 	np.y += 1;
-	if (checkPoints(np)) {
+	if (!checkPoints(np)) {
 		//Под фигурой что-то есть.
-		field->push(figure);
-		return field->checkLines();
+		field.push(&figure);
+		return field.checkLines();
 	}
 
 	return -1;
@@ -119,15 +124,15 @@ int TetrisController::getDelta(float pos_f, int pos_i)
 bool TetrisController::checkPoints(sf::Vector2i newPos)
 {
 	for (int n = 0; n < 4; n++) {
-		sf::Vector2i p = figure->points(n) + newPos;
+		sf::Vector2i p = figure.points(n) + newPos;
 
 		//Выход за границы поля
 		if (	(p.x < 0) || 
-				(p.x > field->Width() - 1) || 
-				(p.y > field->Hight() - 1)		) return false;
+				(p.x > field.Width() - 1) || 
+				(p.y > field.Hight() - 1)		) return false;
 
 		//Место на поле занято
-		if ( field->isFilled(p.x,p.y) ) return false;
+		if ( field.isFilled(p.x,p.y) ) return false;
 
 	}
 	return true;

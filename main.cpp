@@ -2,7 +2,7 @@
 #include <array>
 #include <SFML/Graphics.hpp>
 
-#include "TetrisController.h"
+#include "TetrisView.h"
 
 using namespace std;
 
@@ -28,8 +28,14 @@ int main()
 	float one_tic = 0;	//Время потраченное на одну обработку одного цикла
 
 	//Управляемая фигура и поле
-	TetrisController tc;
-	tc.setFigureType( rand() % 7 );
+	TetrisView tv;
+	tv.setScale(16);
+	tv.setPosition(5, 0);
+	tv.setFigureType( rand() % 7 );
+
+	tv.setSpeeds(1, 0); //SpeedDown, SpeedX
+	tv.setAnimSpeeds(30, 30); //figure, points
+
 
 	int score = 0;
 	int count_line = 0;
@@ -48,22 +54,22 @@ int main()
 				window.close();
 				break;
 			case sf::Event::KeyReleased:
-				tc.KeyReleased(event.key.code);
+				tv.KeyReleased(event.key.code);
 				break;
 			default: break;
 			}
 		}
 
 		//Управление
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  tc.KeyPressed(sf::Keyboard::Left);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) tc.KeyPressed(sf::Keyboard::Right);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  tc.KeyPressed(sf::Keyboard::Down);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  tv.KeyPressed(sf::Keyboard::Left);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) tv.KeyPressed(sf::Keyboard::Right);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  tv.KeyPressed(sf::Keyboard::Down);
 
 
-		count_line = tc.Update(one_tic);
+		count_line = tv.Update(one_tic);
 		if (count_line >= 0) {
-			tc.setFigureType(rand() % 7);
-			tc.setPosition( 5, 0 );
+			tv.setFigureType(rand() % 7);
+			tv.setPosition( 5, 0 );
 
 			score += count_line;
 			std::cout << score << std::endl;
@@ -72,16 +78,18 @@ int main()
 
 
 		//Анимации
-		MainFigure.UpdateAnimation( one_tic );
+		tv.UpdateAnimation( one_tic );
 
 
 		window.clear(ClearColor);
-		//Рисуем спрайты фигуры
-		for (int n = 0; n < 4; n++) {
-			sp.setPosition( MainFigure.screenPos(n) );
+		//Рисуем 
+		std::vector<sf::Vector2f> points;
+		points = tv.getPointsToView();
+		for (auto& p : points) {
+			sp.setPosition( p );
 			window.draw(sp);
 		}
-
+		/*
 		//Рисуем поле
 		for (int i = 0; i < Field.Hight(); i++) {
 			for (int j = 0; j < Field.Width(); j++) {
@@ -91,7 +99,7 @@ int main()
 				}
 			}
 		}
-
+		*/
 
 		window.display();
 
