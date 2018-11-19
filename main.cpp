@@ -61,9 +61,9 @@ int main()
 		}
 
 		//”правление
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  tv.KeyPressed(sf::Keyboard::Left);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) tv.KeyPressed(sf::Keyboard::Right);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  tv.KeyPressed(sf::Keyboard::Down);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  tv.KeyPressed(sf::Keyboard::Left, one_tic);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) tv.KeyPressed(sf::Keyboard::Right, one_tic);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  tv.KeyPressed(sf::Keyboard::Down, one_tic);
 
 
 		count_line = tv.Update(one_tic);
@@ -89,17 +89,6 @@ int main()
 			sp.setPosition( p );
 			window.draw(sp);
 		}
-		/*
-		//–исуем поле
-		for (int i = 0; i < Field.Hight(); i++) {
-			for (int j = 0; j < Field.Width(); j++) {
-				if (Field.isFilled(j, i)) {
-					sp.setPosition( j*16, i*16 );
-					window.draw(sp);
-				}
-			}
-		}
-		*/
 
 		window.display();
 

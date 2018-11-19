@@ -17,13 +17,13 @@ void TetrisController::setPosition(float X, float Y)
 void TetrisController::setPositionX(float X)
 {
 	f_position.x = X;
-	figure.setPositionX( (int)X );
+	figure.setPositionX((int)X);
 }
 
 void TetrisController::setPositionY(float Y)
 {
 	f_position.y = Y;
-	figure.setPositionY( (int)Y );
+	figure.setPositionY((int)Y);
 }
 
 void TetrisController::setSpeeds(float newSpeedDown, float newSpeedX)
@@ -59,6 +59,7 @@ void TetrisController::KeyReleased(sf::Keyboard::Key key)
 	case sf::Keyboard::Left:
 	case sf::Keyboard::Right: 
 		SpeedX = 0;
+		f_position.x = figure.positionX();
 		break;
 	case sf::Keyboard::Space:
 		figure.turn();
@@ -67,17 +68,17 @@ void TetrisController::KeyReleased(sf::Keyboard::Key key)
 	}
 }
 
-void TetrisController::KeyPressed(sf::Keyboard::Key key)
+void TetrisController::KeyPressed(sf::Keyboard::Key key, float tic )
 {
 	switch (key) {
 	case sf::Keyboard::Down:
-		SpeedDown += 10;
+		SpeedDown += 150 * tic;
 		break;
 	case sf::Keyboard::Left:
-		SpeedX = -15;
+		SpeedX = -20;
 		break;
 	case sf::Keyboard::Right:
-		SpeedX = 15;
+		SpeedX = 20;
 		break;
 	default: break;
 	}
@@ -85,7 +86,6 @@ void TetrisController::KeyPressed(sf::Keyboard::Key key)
 
 int TetrisController::Update(float tic)
 {
-	int res = -1;
 	move(tic * SpeedX, tic * SpeedDown);
 
 	sf::Vector2i np(
@@ -96,19 +96,27 @@ int TetrisController::Update(float tic)
 	if (checkPoints(np)) {
 		// двигать можно
 		figure.setPosition(np);
-	} else {
-		// двигать нельз€
-		SpeedDown = 1;
-		SpeedX = 0;
-		setPosition(figure.positionX(), figure.positionY());
+		return -1;
 	}
 
-	np.y += 1;
-	if (!checkPoints(np)) {
-		//ѕод фигурой что-то есть.
-		field.push(&figure);
-		return field.checkLines();
-	}
+		// двигать нельз€
+		SpeedX = 0;
+		f_position.x = figure.positionX();
+
+		sf::Vector2i np2(
+			figure.positionX() + getDelta(f_position.x, figure.positionX()),
+			figure.positionY() + getDelta(f_position.y, figure.positionY())
+		);
+		np2.y += 1;
+		if (!checkPoints(np2)) {
+			//ѕод фигурой что-то есть.
+			SpeedDown = 1;
+			f_position.y = figure.positionY();
+
+			field.push(&figure);
+			return field.checkLines();
+		}
+
 
 	return -1;
 }

@@ -32,7 +32,7 @@ public:
 	int Update( float tic );
 
 	void KeyReleased(sf::Keyboard::Key key);
-	void KeyPressed (sf::Keyboard::Key key);
+	void KeyPressed (sf::Keyboard::Key key, float tic);
 
 private:
 	sf::Vector2f f_position;
