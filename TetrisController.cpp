@@ -47,6 +47,15 @@ void TetrisController::moveY(float d)
 	f_position.y += d;
 }
 
+void TetrisController::TurnFiguer()
+{
+	BaseFigure tf = figure;
+	tf.turn();
+	if ( checkPoints(tf.position(), tf) ) {
+		figure.turn();
+	}
+}
+
 void TetrisController::setFigureType(int type)
 {
 	figure.setFigureType(type);
@@ -64,7 +73,7 @@ void TetrisController::KeyReleased(sf::Keyboard::Key key)
 		f_position.x = figure.positionX();
 		break;
 	case sf::Keyboard::Space:
-		figure.turn();
+		TurnFiguer();
 		break;
 	default: break;
 	}
@@ -97,7 +106,7 @@ int TetrisController::Update(float tic)
 		figure.positionY() + getDelta(f_position.y, figure.positionY())
 	);
 
-	if (checkPoints(np)) {
+	if (checkPoints(np,figure)) {
 		// двигать можно
 		figure.setPosition(np);
 		return -1;
@@ -112,7 +121,7 @@ int TetrisController::Update(float tic)
 			figure.positionY() + getDelta(f_position.y, figure.positionY())
 		);
 		np2.y += 1;
-		if (!checkPoints(np2)) {
+		if (!checkPoints(np2,figure)) {
 			//Под фигурой что-то есть.
 			SpeedDown = SpeedDownMax;
 			f_position.y = figure.positionY();
@@ -133,10 +142,10 @@ int TetrisController::getDelta(float pos_f, int pos_i)
 	return 0;
 }
 
-bool TetrisController::checkPoints(sf::Vector2i newPos)
+bool TetrisController::checkPoints(sf::Vector2i newPos, const BaseFigure&fig)
 {
 	for (int n = 0; n < 4; n++) {
-		sf::Vector2i p = figure.points(n) + newPos;
+		sf::Vector2i p = fig.points(n) + newPos;
 
 		//Выход за границы поля
 		if (	(p.x < 0) || 

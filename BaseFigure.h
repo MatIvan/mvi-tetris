@@ -30,16 +30,17 @@ class BaseFigure
 public:
 	BaseFigure() {};
 	~BaseFigure() {};
+	BaseFigure &operator=(const BaseFigure &figure);
 
 	void setFigureType(int type);
-	int  FigureType() { return _figureType; };
+	int  FigureType() const { return _figureType; };
 
-	sf::Vector2i position() { return _position;   }
-	int positionX()			{ return _position.x; }
-	int positionY()			{ return _position.y; }
+	sf::Vector2i position() const { return _position;   }
+	int positionX()			const { return _position.x; }
+	int positionY()			const { return _position.y; }
 
-	sf::Vector2i g_points(int n)	 { return _position + _points[n]; }
-	const sf::Vector2i &points (int n)   { return _points[n]; }
+	sf::Vector2i g_points(int n) const { return _position + _points[n]; }
+	const sf::Vector2i &points (int n) const { return _points[n]; }
 	
 	void setPosition  (sf::Vector2i newPos ) { _position = newPos; }
 	void setPosition  (int X, int Y)		 { setPositionX(X); setPositionY(Y); }
@@ -57,7 +58,7 @@ private:
 	sf::Vector2i	_position;
 	Points4i_t		_points;
 
-	void turn90(int n);
+	sf::Vector2i turn90(int n);
 };
 
 #endif //BASEFIGURE_H

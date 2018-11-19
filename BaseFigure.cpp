@@ -1,5 +1,17 @@
 #include "BaseFigure.h"
 
+BaseFigure & BaseFigure::operator=(const BaseFigure & figure)
+{
+	_figureType		= figure.FigureType();
+	_position		= figure.position();
+
+	for (int i = 0; i < 4; i++) {
+		_points[i] = figure.points(i);
+	}
+
+	return *this;
+}
+
 void BaseFigure::setFigureType(int type)
 {
 	//Точки на фигуре задаются относительно центра поворота.
@@ -36,10 +48,10 @@ void BaseFigure::setFigureType(int type)
 void BaseFigure::turn()
 {
 	for (int n = 0; n < 4; n++)
-		turn90(n);
+		_points[n] = turn90(n);
 }
 
-void BaseFigure::turn90(int n)
+sf::Vector2i BaseFigure::turn90(int n)
 {
 	//X = x1 + (x2 - x1)*cos(A) - (y2 - y1)*sin(A)
 	//Y = y1 + (x2 - x1)*sin(A) + (y2 - y1)*cos(A)
@@ -47,5 +59,5 @@ void BaseFigure::turn90(int n)
 	sf::Vector2i R;
 	R.x = -_points[n].y;
 	R.y =  _points[n].x;
-	_points[n] = R;
+	return R;
 }

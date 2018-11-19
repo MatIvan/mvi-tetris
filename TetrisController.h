@@ -51,9 +51,11 @@ private:
 	void moveX(float d);
 	void moveY(float d);
 
+	void TurnFiguer();
+
 	int getDelta(float pos_f, int pos_i);
 
-	bool checkPoints(sf::Vector2i newPos);
+	bool checkPoints(sf::Vector2i newPos, const BaseFigure&fig);
 };
 
 #endif //TETRISCONTROLLER_H
