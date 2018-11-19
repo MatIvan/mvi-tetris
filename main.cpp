@@ -33,7 +33,7 @@ int main()
 	tv.setPosition(5, 0);
 	tv.setFigureType( rand() % 7 );
 
-	tv.setSpeeds(1, 0); //SpeedDown, SpeedX
+	tv.setSpeeds(1, 50); //SpeedDownMax, SpeedXMax
 	tv.setAnimSpeeds(30, 30); //figure, points
 
 

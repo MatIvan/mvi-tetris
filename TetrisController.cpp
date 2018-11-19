@@ -4,7 +4,9 @@
 
 TetrisController::TetrisController( )
 {
-	SpeedDown = 1;
+	SpeedDownMax = 1;
+	SpeedXMax = 10;
+	SpeedDown = SpeedDownMax;
 	SpeedX = 0;
 }
 
@@ -28,8 +30,8 @@ void TetrisController::setPositionY(float Y)
 
 void TetrisController::setSpeeds(float newSpeedDown, float newSpeedX)
 {
-	SpeedDown = newSpeedDown;
-	SpeedX = newSpeedX;
+	SpeedDownMax = newSpeedDown;
+	SpeedXMax = newSpeedX;
 
 }
 
@@ -54,7 +56,7 @@ void TetrisController::KeyReleased(sf::Keyboard::Key key)
 {
 	switch (key) {
 	case sf::Keyboard::Down: 
-		SpeedDown = 1;
+		SpeedDown = SpeedDownMax;
 		break;
 	case sf::Keyboard::Left:
 	case sf::Keyboard::Right: 
@@ -72,13 +74,15 @@ void TetrisController::KeyPressed(sf::Keyboard::Key key, float tic )
 {
 	switch (key) {
 	case sf::Keyboard::Down:
-		SpeedDown += 150 * tic;
+		SpeedDown += 200 * tic;
 		break;
 	case sf::Keyboard::Left:
-		SpeedX = -20;
+		if (SpeedX == 0) moveX(-1); 
+		SpeedX -= SpeedXMax * tic;
 		break;
 	case sf::Keyboard::Right:
-		SpeedX = 20;
+		if (SpeedX == 0) moveX(1);
+		SpeedX += SpeedXMax * tic;
 		break;
 	default: break;
 	}
@@ -110,7 +114,7 @@ int TetrisController::Update(float tic)
 		np2.y += 1;
 		if (!checkPoints(np2)) {
 			//Под фигурой что-то есть.
-			SpeedDown = 1;
+			SpeedDown = SpeedDownMax;
 			f_position.y = figure.positionY();
 
 			field.push(&figure);

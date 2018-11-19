@@ -41,6 +41,8 @@ private:
 	BaseField  field;
 
 	
+	float SpeedDownMax;
+	float SpeedXMax;
 
 	float SpeedDown;
 	float SpeedX;
