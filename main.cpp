@@ -6,22 +6,31 @@
 
 using namespace std;
 
+#define MAIN_SCALE 16
+
 int main()
 {
 	cout << "Start MVI_tetris." << endl;
 
-	sf::RenderWindow window(sf::VideoMode(12*16, 24*16), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode((12+4+2+2)*16, 24*16), "SFML works!");
 	sf::Color ClearColor(195, 195, 195);
 	
+	//Главный спрайт активных элементов
 	sf::Image im;
 	im.loadFromFile("images/block16.png");
 	im.createMaskFromColor(sf::Color(255, 0, 0));
-
 	sf::Texture tx;
 	tx.loadFromImage(im);
-
 	sf::Sprite sp(tx);
 	sp.setPosition(10, 10);
+
+	//Спрайт пассивных элементов
+	sf::Image im1;
+	im1.loadFromFile("images/block16_gray.png");
+	im1.createMaskFromColor(sf::Color(255, 0, 0));
+	sf::Texture tx1;
+	tx1.loadFromImage(im1);
+	sf::Sprite sp_gray(tx1);
 
 	//Таймеры
 	sf::Clock clock;
@@ -29,17 +38,25 @@ int main()
 
 	//Управляемая фигура и поле
 	TetrisView tv;
-	tv.setScale(16);
+	tv.setScale( MAIN_SCALE );
 	tv.setPosition(5, 0);
 	tv.setFigureType( rand() % 7 );
-
-	tv.setSpeeds(1, 50); //SpeedDownMax, SpeedXMax
+	tv.setSpeeds(1); //SpeedDownMax
 	tv.setAnimSpeeds(30, 30); //figure, points
+
+	//Следующая фигура
+	BaseFigure nextFigureB;
+	nextFigureB.setPosition(13, 3);
+	nextFigureB.setFigureType(rand() % 7);
+	FigureView nextFigureV;
+	nextFigureV.setFigure(&nextFigureB);
+	nextFigureV.setScale(MAIN_SCALE);
+	nextFigureV.setAnimSpeeds(15, 15);
 
 
 	int score = 0;
 	int count_line = 0;
-	
+	sf::Vector2f offset( MAIN_SCALE, MAIN_SCALE );
 
 	while (window.isOpen())
 	{
@@ -68,7 +85,8 @@ int main()
 
 		count_line = tv.Update(one_tic);
 		if (count_line >= 0) {
-			tv.setFigureType(rand() % 7);
+			tv.setFigureType( nextFigureB.FigureType() );
+			nextFigureB.setFigureType(rand() % 7);
 			tv.setPosition( 5, 0 );
 
 			score += count_line;
@@ -79,14 +97,41 @@ int main()
 
 		//Анимации
 		tv.UpdateAnimation( one_tic );
-
+		nextFigureV.UpdateAnimation( one_tic );
 
 		window.clear(ClearColor);
-		//Рисуем 
+		//Рисуем фон
+		{
+			//TODO: переделать на один большой спрайт
+
+			//Игровой стакан
+			for (int i = 1; i < 11; i++) {
+				for (int j = 1; j < 21; j++) {
+					sp_gray.setPosition( i * MAIN_SCALE, j * MAIN_SCALE );
+					window.draw(sp_gray);
+				}
+			}
+
+			//Поле отображения седующей фигуры
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					sp_gray.setPosition( (i+12) * MAIN_SCALE, (j+1) * MAIN_SCALE);
+					window.draw(sp_gray);
+				}
+			}
+
+			//Следующая фигура
+			for (int n = 0; n < 4; n++) {
+				sp.setPosition(nextFigureV.screenPos(n) );
+				window.draw(sp);
+			}
+		}
+
+		//Рисуем фигуру и поле
 		std::vector<sf::Vector2f> points;
 		points = tv.getPointsToView();
 		for (auto& p : points) {
-			sp.setPosition( p );
+			sp.setPosition( p + offset );
 			window.draw(sp);
 		}
 

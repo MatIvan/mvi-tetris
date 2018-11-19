@@ -6,7 +6,8 @@
 #include "BaseField.h"
 #include <SFML/Graphics.hpp>
 
-
+#define DELTA_SPEED_DOWN 200
+#define DELTA_SPEED_X 70
 
 class TetrisController
 {
@@ -20,7 +21,7 @@ public:
 	void setPositionX(float X);
 	void setPositionY(float Y);
 
-	void setSpeeds(float newSpeedDown, float newSpeedX);
+	void setSpeeds(float newSpeedDown);
 
 	BaseFigure *getBaseFigure() { return &figure; }
 	BaseField  *getBaseField() { return &field; }
@@ -41,11 +42,9 @@ private:
 	BaseField  field;
 
 	
-	float SpeedDownMax;
-	float SpeedXMax;
-
-	float SpeedDown;
-	float SpeedX;
+	float SpeedDownMax; //”становленна€ скорость падени€ (мен€етс€ из контроллера)
+	float SpeedDown;	//ћоментальна€ скорость падени€
+	float SpeedX;		//ћоментальна€ скорость сдвига
 
 	void move(float dX, float dY) { moveX(dX); moveY(dY); }
 	void moveX(float d);

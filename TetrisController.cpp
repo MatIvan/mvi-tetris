@@ -5,7 +5,6 @@
 TetrisController::TetrisController( )
 {
 	SpeedDownMax = 1;
-	SpeedXMax = 10;
 	SpeedDown = SpeedDownMax;
 	SpeedX = 0;
 }
@@ -28,11 +27,9 @@ void TetrisController::setPositionY(float Y)
 	figure.setPositionY((int)Y);
 }
 
-void TetrisController::setSpeeds(float newSpeedDown, float newSpeedX)
+void TetrisController::setSpeeds(float newSpeedDown)
 {
 	SpeedDownMax = newSpeedDown;
-	SpeedXMax = newSpeedX;
-
 }
 
 
@@ -83,15 +80,15 @@ void TetrisController::KeyPressed(sf::Keyboard::Key key, float tic )
 {
 	switch (key) {
 	case sf::Keyboard::Down:
-		SpeedDown += 200 * tic;
+		SpeedDown += DELTA_SPEED_DOWN * tic;
 		break;
 	case sf::Keyboard::Left:
 		if (SpeedX == 0) moveX(-1); 
-		SpeedX -= SpeedXMax * tic;
+		SpeedX -= DELTA_SPEED_X * tic;
 		break;
 	case sf::Keyboard::Right:
 		if (SpeedX == 0) moveX(1);
-		SpeedX += SpeedXMax * tic;
+		SpeedX += DELTA_SPEED_X * tic;
 		break;
 	default: break;
 	}
