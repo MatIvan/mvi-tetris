@@ -134,6 +134,7 @@
     <ClCompile Include="BaseField.cpp" />
     <ClCompile Include="BaseFigure.cpp" />
     <ClCompile Include="FieldView.cpp" />
+    <ClCompile Include="NumericStorage.cpp" />
     <ClCompile Include="TetrisController.cpp" />
     <ClCompile Include="FigureView.cpp" />
     <ClCompile Include="main.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="BaseField.h" />
     <ClInclude Include="BaseFigure.h" />
     <ClInclude Include="FieldView.h" />
+    <ClInclude Include="NumericStorage.h" />
     <ClInclude Include="TetrisController.h" />
     <ClInclude Include="FigureView.h" />
     <ClInclude Include="TetrisView.h" />

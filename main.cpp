@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "TetrisView.h"
+#include "NumericStorage.h"
 
 using namespace std;
 
@@ -25,12 +26,16 @@ int main()
 	sp.setPosition(10, 10);
 
 	//Спрайт пассивных элементов
-	sf::Image im1;
-	im1.loadFromFile("images/block16_gray.png");
-	im1.createMaskFromColor(sf::Color(255, 0, 0));
+	//sf::Image im;
+	im.loadFromFile("images/block16_gray.png");
+	im.createMaskFromColor(sf::Color(255, 0, 0));
 	sf::Texture tx1;
-	tx1.loadFromImage(im1);
+	tx1.loadFromImage(im);
 	sf::Sprite sp_gray(tx1);
+
+	//ТЕСТ
+	NumericStorage ns;
+	ns.LoadSprites("images/numbers.png",6,11);
 
 	//Таймеры
 	sf::Clock clock;
@@ -134,6 +139,11 @@ int main()
 			sp.setPosition( p + offset );
 			window.draw(sp);
 		}
+
+		
+		//ТЕСТ
+		char cc = ' ';
+		window.draw(ns.getSprite(&cc, sf::Vector2f(200 + 7 * 0, 100) ) );
 
 		window.display();
 

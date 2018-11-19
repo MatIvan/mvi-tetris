@@ -1,0 +1,36 @@
+#ifndef NUMERICLABAL_H
+#define NUMERICLABAL_H
+
+#pragma once
+
+#include <SFML/Graphics.hpp>
+
+/*
+	Класс NumericStorage
+	Загружает и хранит картинку, текстуры и спрайты цифр
+	Картинка должна сожержать 11 кусков:
+		Первый пустой
+		Второй 0
+		Остачные цыфры от 1 до 9
+*/
+class NumericStorage
+{
+public:
+	NumericStorage();
+	~NumericStorage();
+
+	//Загрузить спрайты
+	void LoadSprites(const std::string &filename, int width, int height);
+
+	//Получить спрайт по цифре
+	const sf::Sprite &getSprite( const char *symbol, sf::Vector2f position = sf::Vector2f(0,0) );
+
+private:
+	sf::Image	_image;			//Катринка
+	sf::Texture _textures[11];	//Хранилище текстур
+	sf::Sprite	_sprites[11];	//Хранилище спрайтов
+
+
+};
+
+#endif //NUMERICLABAL_H
