@@ -38,12 +38,37 @@ int main()
 	NumericStorage myNumericStorage;
 	myNumericStorage.LoadSprites("images/numbers.png",6,11);
 
+	//Спрайт надписи "SCORE"
+	im.loadFromFile("images/scoretext.png");
+	im.createMaskFromColor(sf::Color(255, 0, 0));
+	sf::Texture txS;
+	txS.loadFromImage(im);
+	sf::Sprite sp_score(txS);
+	sp_score.setPosition(200 - 2, 120 + 1);
+
 	//Поле на экране для вывода чисел спрайтами
 	NumericLabel scoreLabel;
 	scoreLabel.setStorage(&myNumericStorage);
-	scoreLabel.setPosition(sf::Vector2f(200, 100));
+	scoreLabel.setPosition(sf::Vector2f(200, 120+11));
 	scoreLabel.setSize(8);
 	scoreLabel.setValue(0);
+	int score = 0;
+
+	//Спрайт надписи "LEVEL"
+	im.loadFromFile("images/leveltext.png");
+	im.createMaskFromColor(sf::Color(255, 0, 0));
+	sf::Texture txL;
+	txL.loadFromImage(im);
+	sf::Sprite sp_level(txL);
+	sp_level.setPosition(200-2, 170+1);
+
+	//Поле на экране для вывода уровня
+	NumericLabel levelLabel;
+	levelLabel.setStorage(&myNumericStorage);
+	levelLabel.setPosition(sf::Vector2f(200+1+6*5, 170));
+	levelLabel.setSize(3);
+	levelLabel.setValue(1);
+	int level = 1;
 
 	//Таймеры
 	sf::Clock clock;
@@ -54,7 +79,7 @@ int main()
 	tv.setScale( MAIN_SCALE );
 	tv.setPosition(5, 0);
 	tv.setFigureType( rand() % 7 );
-	tv.setSpeeds(1); //SpeedDownMax
+	tv.setSpeeds( level ); //SpeedDownMax
 	tv.setAnimSpeeds(30, 30); //figure, points
 
 	//Следующая фигура
@@ -67,7 +92,7 @@ int main()
 	nextFigureV.setAnimSpeeds(15, 15);
 
 
-	int score = 0;
+	
 	int count_line = 0;
 	sf::Vector2f offset( MAIN_SCALE, MAIN_SCALE );
 
@@ -105,6 +130,12 @@ int main()
 			score += count_line * count_line * 10;
 			std::cout << score << std::endl;
 			scoreLabel.setValue(score);
+
+			if (score >= level * 150) {
+				level++;
+				levelLabel.setValue(level);
+				tv.setSpeeds(level);
+			}
 		}
 
 
@@ -150,7 +181,12 @@ int main()
 		}
 
 		//Рисует количество очков спратами
+		window.draw(sp_score);
 		scoreLabel.Draw(&window);
+
+		//Рисует номер уровня
+		window.draw(sp_level);
+		levelLabel.Draw(&window);
 
 		window.display();
 
