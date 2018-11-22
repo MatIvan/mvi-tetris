@@ -1,5 +1,5 @@
-#ifndef NUMERICLABAL_H
-#define NUMERICLABAL_H
+#ifndef NUMERISTORAGE_H
+#define NUMERISTORAGE_H
 
 #pragma once
 
@@ -23,7 +23,10 @@ public:
 	void LoadSprites(const std::string &filename, int width, int height);
 
 	//Получить спрайт по цифре
-	const sf::Sprite &getSprite( const char *symbol, sf::Vector2f position = sf::Vector2f(0,0) );
+	const sf::Sprite &getSprite( int symbol, sf::Vector2f position = sf::Vector2f(0,0) );
+
+	//Ширина символа
+	int getWidth() const { return _textures[0].getSize().x; }
 
 private:
 	sf::Image	_image;			//Катринка
@@ -33,4 +36,4 @@ private:
 
 };
 
-#endif //NUMERICLABAL_H
+#endif //NUMERISTORAGE_H

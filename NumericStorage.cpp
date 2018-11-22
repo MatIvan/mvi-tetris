@@ -22,15 +22,8 @@ void NumericStorage::LoadSprites(const std::string & filename, int width, int he
 	}
 }
 
-const sf::Sprite & NumericStorage::getSprite(const char *symbol, sf::Vector2f position)
+const sf::Sprite & NumericStorage::getSprite(int symbol, sf::Vector2f position)
 {
-	if (symbol[0] == ' ') {
-		_sprites[0].setPosition(position);
-		return _sprites[0]; //Пустой символ 
-	}
-
-	int i = std::atoi(symbol) + 1;
-	_sprites[i].setPosition(position);
-	return _sprites[i];
-	
+	_sprites[symbol].setPosition(position);
+	return _sprites[symbol];
 }

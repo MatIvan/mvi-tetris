@@ -4,6 +4,7 @@
 
 #include "TetrisView.h"
 #include "NumericStorage.h"
+#include "NumericLabel.h"
 
 using namespace std;
 
@@ -33,9 +34,16 @@ int main()
 	tx1.loadFromImage(im);
 	sf::Sprite sp_gray(tx1);
 
-	//ТЕСТ
-	NumericStorage ns;
-	ns.LoadSprites("images/numbers.png",6,11);
+	//Хранилище спрайтов с цифрами
+	NumericStorage myNumericStorage;
+	myNumericStorage.LoadSprites("images/numbers.png",6,11);
+
+	//Поле на экране для вывода чисел спрайтами
+	NumericLabel scoreLabel;
+	scoreLabel.setStorage(&myNumericStorage);
+	scoreLabel.setPosition(sf::Vector2f(200, 100));
+	scoreLabel.setSize(8);
+	scoreLabel.setValue(0);
 
 	//Таймеры
 	sf::Clock clock;
@@ -94,8 +102,9 @@ int main()
 			nextFigureB.setFigureType(rand() % 7);
 			tv.setPosition( 5, 0 );
 
-			score += count_line;
+			score += count_line * count_line * 10;
 			std::cout << score << std::endl;
+			scoreLabel.setValue(score);
 		}
 
 
@@ -140,10 +149,8 @@ int main()
 			window.draw(sp);
 		}
 
-		
-		//ТЕСТ
-		char cc = ' ';
-		window.draw(ns.getSprite(&cc, sf::Vector2f(200 + 7 * 0, 100) ) );
+		//Рисует количество очков спратами
+		scoreLabel.Draw(&window);
 
 		window.display();
 
