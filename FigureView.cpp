@@ -25,12 +25,12 @@ void FigureView::UpdateAnimation(float tic)
 	sf::Vector2f target;
 	sf::Vector2i pos;
 
-	//Плавное перемещение центра фигуры
+	//РџР»Р°РІРЅРѕРµ РїРµСЂРµРјРµС‰РµРЅРёРµ С†РµРЅС‚СЂР° С„РёРіСѓСЂС‹
 	pos = figure->position();
 	target = sf::Vector2f( pos.x * _scale, pos.y * _scale);
 	_ScreenPosition += (target - _ScreenPosition) * AnimSpeed_figure * tic;
 
-	//Плавное перемещение точек фигуры
+	//РџР»Р°РІРЅРѕРµ РїРµСЂРµРјРµС‰РµРЅРёРµ С‚РѕС‡РµРє С„РёРіСѓСЂС‹
 	for (int n = 0; n < 4; n++) {
 		pos = figure->points(n);
 		target = sf::Vector2f( pos.x * _scale, pos.y * _scale);

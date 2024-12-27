@@ -39,12 +39,12 @@ std::vector<sf::Vector2f> TetrisView::getPointsToView()
 {
 	std::vector<sf::Vector2f> res;
 
-	//Точки фигуры
+	//РўРѕС‡РєРё С„РёРіСѓСЂС‹
 	for (int i = 0; i < 4; i++) {
 		res.push_back(figureV.screenPos(i));
 	}
 
-	//Точки поля
+	//РўРѕС‡РєРё РїРѕР»СЏ
 	std::vector<sf::Vector2f> fp;
 	fp = fieldV.getPointToView();
 	res.insert(res.end(), fp.begin(), fp.end() );

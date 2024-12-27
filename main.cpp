@@ -17,7 +17,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode((12+4+2+2)*16, 24*16), "SFML works!");
 	sf::Color ClearColor(195, 195, 195);
 	
-	//Главный спрайт активных элементов
+	//Р“Р»Р°РІРЅС‹Р№ СЃРїСЂР°Р№С‚ Р°РєС‚РёРІРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ
 	sf::Image im;
 	im.loadFromFile("images/block16.png");
 	im.createMaskFromColor(sf::Color(255, 0, 0));
@@ -26,7 +26,7 @@ int main()
 	sf::Sprite sp(tx);
 	sp.setPosition(10, 10);
 
-	//Спрайт пассивных элементов
+	//РЎРїСЂР°Р№С‚ РїР°СЃСЃРёРІРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ
 	//sf::Image im;
 	im.loadFromFile("images/block16_gray.png");
 	im.createMaskFromColor(sf::Color(255, 0, 0));
@@ -34,11 +34,11 @@ int main()
 	tx1.loadFromImage(im);
 	sf::Sprite sp_gray(tx1);
 
-	//Хранилище спрайтов с цифрами
+	//РҐСЂР°РЅРёР»РёС‰Рµ СЃРїСЂР°Р№С‚РѕРІ СЃ С†РёС„СЂР°РјРё
 	NumericStorage myNumericStorage;
 	myNumericStorage.LoadSprites("images/numbers.png",6,11);
 
-	//Спрайт надписи "SCORE"
+	//РЎРїСЂР°Р№С‚ РЅР°РґРїРёСЃРё "SCORE"
 	im.loadFromFile("images/scoretext.png");
 	im.createMaskFromColor(sf::Color(255, 0, 0));
 	sf::Texture txS;
@@ -46,7 +46,7 @@ int main()
 	sf::Sprite sp_score(txS);
 	sp_score.setPosition(200 - 2, 120 + 1);
 
-	//Поле на экране для вывода чисел спрайтами
+	//РџРѕР»Рµ РЅР° СЌРєСЂР°РЅРµ РґР»СЏ РІС‹РІРѕРґР° С‡РёСЃРµР» СЃРїСЂР°Р№С‚Р°РјРё
 	NumericLabel scoreLabel;
 	scoreLabel.setStorage(&myNumericStorage);
 	scoreLabel.setPosition(sf::Vector2f(200, 120+11));
@@ -54,7 +54,7 @@ int main()
 	scoreLabel.setValue(0);
 	int score = 0;
 
-	//Спрайт надписи "LEVEL"
+	//РЎРїСЂР°Р№С‚ РЅР°РґРїРёСЃРё "LEVEL"
 	im.loadFromFile("images/leveltext.png");
 	im.createMaskFromColor(sf::Color(255, 0, 0));
 	sf::Texture txL;
@@ -62,7 +62,7 @@ int main()
 	sf::Sprite sp_level(txL);
 	sp_level.setPosition(200-2, 170+1);
 
-	//Поле на экране для вывода уровня
+	//РџРѕР»Рµ РЅР° СЌРєСЂР°РЅРµ РґР»СЏ РІС‹РІРѕРґР° СѓСЂРѕРІРЅСЏ
 	NumericLabel levelLabel;
 	levelLabel.setStorage(&myNumericStorage);
 	levelLabel.setPosition(sf::Vector2f(200+1+6*5, 170));
@@ -70,11 +70,11 @@ int main()
 	levelLabel.setValue(1);
 	int level = 1;
 
-	//Таймеры
+	//РўР°Р№РјРµСЂС‹
 	sf::Clock clock;
-	float one_tic = 0;	//Время потраченное на одну обработку одного цикла
+	float one_tic = 0;	//Р’СЂРµРјСЏ РїРѕС‚СЂР°С‡РµРЅРЅРѕРµ РЅР° РѕРґРЅСѓ РѕР±СЂР°Р±РѕС‚РєСѓ РѕРґРЅРѕРіРѕ С†РёРєР»Р°
 
-	//Управляемая фигура и поле
+	//РЈРїСЂР°РІР»СЏРµРјР°СЏ С„РёРіСѓСЂР° Рё РїРѕР»Рµ
 	TetrisView tv;
 	tv.setScale( MAIN_SCALE );
 	tv.setPosition(5, 0);
@@ -82,7 +82,7 @@ int main()
 	tv.setSpeeds( level ); //SpeedDownMax
 	tv.setAnimSpeeds(30, 30); //figure, points
 
-	//Следующая фигура
+	//РЎР»РµРґСѓСЋС‰Р°СЏ С„РёРіСѓСЂР°
 	BaseFigure nextFigureB;
 	nextFigureB.setPosition(13, 3);
 	nextFigureB.setFigureType(rand() % 7);
@@ -115,7 +115,7 @@ int main()
 			}
 		}
 
-		//Управление
+		//РЈРїСЂР°РІР»РµРЅРёРµ
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  tv.KeyPressed(sf::Keyboard::Left, one_tic);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) tv.KeyPressed(sf::Keyboard::Right, one_tic);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  tv.KeyPressed(sf::Keyboard::Down, one_tic);
@@ -140,16 +140,16 @@ int main()
 
 
 
-		//Анимации
+		//РђРЅРёРјР°С†РёРё
 		tv.UpdateAnimation( one_tic );
 		nextFigureV.UpdateAnimation( one_tic );
 
 		window.clear(ClearColor);
-		//Рисуем фон
+		//Р РёСЃСѓРµРј С„РѕРЅ
 		{
-			//TODO: переделать на один большой спрайт
+			//TODO: РїРµСЂРµРґРµР»Р°С‚СЊ РЅР° РѕРґРёРЅ Р±РѕР»СЊС€РѕР№ СЃРїСЂР°Р№С‚
 
-			//Игровой стакан
+			//РРіСЂРѕРІРѕР№ СЃС‚Р°РєР°РЅ
 			for (int i = 1; i < 11; i++) {
 				for (int j = 1; j < 21; j++) {
 					sp_gray.setPosition( i * MAIN_SCALE, j * MAIN_SCALE );
@@ -157,7 +157,7 @@ int main()
 				}
 			}
 
-			//Поле отображения седующей фигуры
+			//РџРѕР»Рµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ СЃРµРґСѓСЋС‰РµР№ С„РёРіСѓСЂС‹
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
 					sp_gray.setPosition( (i+12) * MAIN_SCALE, (j+1) * MAIN_SCALE);
@@ -165,14 +165,14 @@ int main()
 				}
 			}
 
-			//Следующая фигура
+			//РЎР»РµРґСѓСЋС‰Р°СЏ С„РёРіСѓСЂР°
 			for (int n = 0; n < 4; n++) {
 				sp.setPosition(nextFigureV.screenPos(n) );
 				window.draw(sp);
 			}
 		}
 
-		//Рисуем фигуру и поле
+		//Р РёСЃСѓРµРј С„РёРіСѓСЂСѓ Рё РїРѕР»Рµ
 		std::vector<sf::Vector2f> points;
 		points = tv.getPointsToView();
 		for (auto& p : points) {
@@ -180,11 +180,11 @@ int main()
 			window.draw(sp);
 		}
 
-		//Рисует количество очков спратами
+		//Р РёСЃСѓРµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕС‡РєРѕРІ СЃРїСЂР°С‚Р°РјРё
 		window.draw(sp_score);
 		scoreLabel.Draw(&window);
 
-		//Рисует номер уровня
+		//Р РёСЃСѓРµС‚ РЅРѕРјРµСЂ СѓСЂРѕРІРЅСЏ
 		window.draw(sp_level);
 		levelLabel.Draw(&window);
 

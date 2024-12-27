@@ -23,7 +23,7 @@ void FieldView::setField(BaseField * newField)
 
 void FieldView::UpdateAnimation(float tic)
 {
-	//Тут пока нет анимации
+	//РўСѓС‚ РїРѕРєР° РЅРµС‚ Р°РЅРёРјР°С†РёРё
 }
 
 void FieldView::setScale(float newScale)
