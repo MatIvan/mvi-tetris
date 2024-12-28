@@ -104,12 +104,12 @@ int TetrisController::Update(float tic)
 	);
 
 	if (checkPoints(np,figure)) {
-		// двигать можно
+		// РґРІРёРіР°С‚СЊ РјРѕР¶РЅРѕ
 		figure.setPosition(np);
 		return -1;
 	}
 
-		// двигать нельзя
+		// РґРІРёРіР°С‚СЊ РЅРµР»СЊР·СЏ
 		SpeedX = 0;
 		f_position.x = figure.positionX();
 
@@ -119,7 +119,7 @@ int TetrisController::Update(float tic)
 		);
 		np2.y += 1;
 		if (!checkPoints(np2,figure)) {
-			//Под фигурой что-то есть.
+			//РџРѕРґ С„РёРіСѓСЂРѕР№ С‡С‚Рѕ-С‚Рѕ РµСЃС‚СЊ.
 			SpeedDown = SpeedDownMax;
 			f_position.y = figure.positionY();
 
@@ -144,12 +144,12 @@ bool TetrisController::checkPoints(sf::Vector2i newPos, const BaseFigure&fig)
 	for (int n = 0; n < 4; n++) {
 		sf::Vector2i p = fig.points(n) + newPos;
 
-		//Выход за границы поля
+		//Р’С‹С…РѕРґ Р·Р° РіСЂР°РЅРёС†С‹ РїРѕР»СЏ
 		if (	(p.x < 0) || 
 				(p.x > field.Width() - 1) || 
 				(p.y > field.Hight() - 1)		) return false;
 
-		//Место на поле занято
+		//РњРµСЃС‚Рѕ РЅР° РїРѕР»Рµ Р·Р°РЅСЏС‚Рѕ
 		if ( field.isFilled(p.x,p.y) ) return false;
 
 	}

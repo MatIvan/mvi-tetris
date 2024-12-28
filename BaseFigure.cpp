@@ -14,30 +14,30 @@ BaseFigure & BaseFigure::operator=(const BaseFigure & figure)
 
 void BaseFigure::setFigureType(int type)
 {
-	//Точки на фигуре задаются относительно центра поворота.
+	//РўРѕС‡РєРё РЅР° С„РёРіСѓСЂРµ Р·Р°РґР°СЋС‚СЃСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С†РµРЅС‚СЂР° РїРѕРІРѕСЂРѕС‚Р°.
 	_figureType = type;
 	using pt = sf::Vector2i;
 	switch (_figureType)
 	{
-	case 0: //Палочка
+	case 0: //РџР°Р»РѕС‡РєР°
 		_points = { pt(-1,0), pt(0,0), pt(1,0), pt(2,0) };
 		break;
-	case 1: //Кочерга левая
+	case 1: //РљРѕС‡РµСЂРіР° Р»РµРІР°СЏ
 		_points = { pt(-1,-1), pt(0,-1), pt(0,0), pt(0,1) };
 		break;
-	case 2: //Кочерга правая
+	case 2: //РљРѕС‡РµСЂРіР° РїСЂР°РІР°СЏ
 		_points = { pt(1,-1), pt(0,-1), pt(0,0), pt(0,1) };
 		break;
-	case 3: //Зигзаг левый
+	case 3: //Р—РёРіР·Р°Рі Р»РµРІС‹Р№
 		_points = { pt(0,-1), pt(0,0), pt(1,0), pt(1,1) };
 		break;
-	case 4: //Зигзаг правый
+	case 4: //Р—РёРіР·Р°Рі РїСЂР°РІС‹Р№
 		_points = { pt(0,-1), pt(0,0), pt(-1,0), pt(-1,1) };
 		break;
-	case 5: //Полукрест
+	case 5: //РџРѕР»СѓРєСЂРµСЃС‚
 		_points = { pt(-1,0), pt(0,0), pt(1,0), pt(0,-1) };
 		break;
-	case 6: //Кубик
+	case 6: //РљСѓР±РёРє
 		_points = { pt(0,0), pt(1,0), pt(0,1), pt(1,1) };
 		break;
 	default:
@@ -55,7 +55,7 @@ sf::Vector2i BaseFigure::turn90(int n)
 {
 	//X = x1 + (x2 - x1)*cos(A) - (y2 - y1)*sin(A)
 	//Y = y1 + (x2 - x1)*sin(A) + (y2 - y1)*cos(A)
-	//Поворот только на 90 градусов и только вокруг 0
+	//РџРѕРІРѕСЂРѕС‚ С‚РѕР»СЊРєРѕ РЅР° 90 РіСЂР°РґСѓСЃРѕРІ Рё С‚РѕР»СЊРєРѕ РІРѕРєСЂСѓРі 0
 	sf::Vector2i R;
 	R.x = -_points[n].y;
 	R.y =  _points[n].x;

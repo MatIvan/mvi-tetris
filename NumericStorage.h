@@ -6,12 +6,12 @@
 #include <SFML/Graphics.hpp>
 
 /*
-	Класс NumericStorage
-	Загружает и хранит картинку, текстуры и спрайты цифр
-	Картинка должна сожержать 11 кусков:
-		Первый пустой
-		Второй 0
-		Остачные цыфры от 1 до 9
+	РљР»Р°СЃСЃ NumericStorage
+	Р—Р°РіСЂСѓР¶Р°РµС‚ Рё С…СЂР°РЅРёС‚ РєР°СЂС‚РёРЅРєСѓ, С‚РµРєСЃС‚СѓСЂС‹ Рё СЃРїСЂР°Р№С‚С‹ С†РёС„СЂ
+	РљР°СЂС‚РёРЅРєР° РґРѕР»Р¶РЅР° СЃРѕР¶РµСЂР¶Р°С‚СЊ 11 РєСѓСЃРєРѕРІ:
+		РџРµСЂРІС‹Р№ РїСѓСЃС‚РѕР№
+		Р’С‚РѕСЂРѕР№ 0
+		РћСЃС‚Р°С‡РЅС‹Рµ С†С‹С„СЂС‹ РѕС‚ 1 РґРѕ 9
 */
 class NumericStorage
 {
@@ -19,19 +19,19 @@ public:
 	NumericStorage();
 	~NumericStorage();
 
-	//Загрузить спрайты
+	//Р—Р°РіСЂСѓР·РёС‚СЊ СЃРїСЂР°Р№С‚С‹
 	void LoadSprites(const std::string &filename, int width, int height);
 
-	//Получить спрайт по цифре
+	//РџРѕР»СѓС‡РёС‚СЊ СЃРїСЂР°Р№С‚ РїРѕ С†РёС„СЂРµ
 	const sf::Sprite &getSprite( int symbol, sf::Vector2f position = sf::Vector2f(0,0) );
 
-	//Ширина символа
+	//РЁРёСЂРёРЅР° СЃРёРјРІРѕР»Р°
 	int getWidth() const { return _textures[0].getSize().x; }
 
 private:
-	sf::Image	_image;			//Катринка
-	sf::Texture _textures[11];	//Хранилище текстур
-	sf::Sprite	_sprites[11];	//Хранилище спрайтов
+	sf::Image	_image;			//РљР°С‚СЂРёРЅРєР°
+	sf::Texture _textures[11];	//РҐСЂР°РЅРёР»РёС‰Рµ С‚РµРєСЃС‚СѓСЂ
+	sf::Sprite	_sprites[11];	//РҐСЂР°РЅРёР»РёС‰Рµ СЃРїСЂР°Р№С‚РѕРІ
 
 
 };

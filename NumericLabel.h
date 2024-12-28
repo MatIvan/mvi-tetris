@@ -7,8 +7,8 @@
 #include <SFML/Graphics.hpp>
 
 /*
-	Класс NumericLabel
-	Хранит число в строковом виде и выводит на экран спрайтами их хранилища
+	РљР»Р°СЃСЃ NumericLabel
+	РҐСЂР°РЅРёС‚ С‡РёСЃР»Рѕ РІ СЃС‚СЂРѕРєРѕРІРѕРј РІРёРґРµ Рё РІС‹РІРѕРґРёС‚ РЅР° СЌРєСЂР°РЅ СЃРїСЂР°Р№С‚Р°РјРё РёС… С…СЂР°РЅРёР»РёС‰Р°
 */
 class NumericLabel
 {
@@ -16,7 +16,7 @@ public:
 	NumericLabel();
 	~NumericLabel();
 
-	//Установить хранилище со спрайтами
+	//РЈСЃС‚Р°РЅРѕРІРёС‚СЊ С…СЂР°РЅРёР»РёС‰Рµ СЃРѕ СЃРїСЂР°Р№С‚Р°РјРё
 	void setStorage(NumericStorage *storage) { _storage = storage;  }
 	void setPosition(sf::Vector2f position) { _position = position;  };
 	void setSize(int size) { _size = size; };
