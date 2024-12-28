@@ -26,6 +26,8 @@ add_executable(mvi-tetris
   TetrisController.h TetrisController.cpp
   TetrisView.h TetrisView.cpp
   main.cpp
+
+  README.md
 )
 
 target_link_libraries(mvi-tetris
